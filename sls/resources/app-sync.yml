@@ -1,0 +1,71 @@
+name: ${self:custom.appNameU}Appsync-${self:custom.env}
+tags:
+  VoloRome: ${self:custom.appNameU}-${self:custom.env}
+authenticationType: AMAZON_COGNITO_USER_POOLS
+additionalAuthenticationProviders:
+  - authenticationType: AWS_IAM
+  - authenticationType: API_KEY
+userPoolConfig:
+  awsRegion: ${self:custom.region}
+  defaultAction: ALLOW
+  userPoolId: !Ref CognitoUserPool
+dataSources:
+  - type: AMAZON_DYNAMODB
+    name: UsersTableSource
+    config:
+      tableName: ${self:custom.appNameL}-users-${self:custom.environments.${self:custom.env}} # name of our DynamoDB table
+  # - type: AMAZON_DYNAMODB
+  #   name: CustomErrorSource
+  #   config:
+  #     tableName: RomeCustomErrorTable-${self:custom.env}
+  - type: AWS_LAMBDA
+    name: UsersLambdaSource
+    config:
+      # lambdaFunctionArn: arn:aws:lambda:${self:custom.region}:#{AWS::AccountId}:function:${self:custom.appNameU}UserAppsync-${self:custom.env}
+      lambdaFunctionArn: {"Fn::Join": ["", ["arn:aws:lambda:", {Ref: "AWS::Region"}, ":", {Ref: "AWS::AccountId"}, ":function:", "${self:custom.appNameU}UserAppsync-${self:custom.env}"]]}
+
+
+mappingTemplates:
+  #### types
+  # - dataSource: GetUserFieldSource
+  #   type: User
+  #   field: checkIns
+  #   request: type/user/user-field-source/request.vtl
+  #   response: type/user/user-field-source/response.vtl
+  # - dataSource: ResolveSupportedLocationsSource
+  #   type: AppConfig
+  #   field: supportedLocations
+  #   request: false
+  #   response: false 
+  #### queries
+  - dataSource: UsersTableSource
+    type: Query
+    field: getAdminUsers
+    request: 'query/get-admin-users/request.vtl'
+    response: 'query/get-admin-users/response.vtl'
+  - dataSource: UsersTableSource
+    type: Query
+    field: getUser
+    request: query/get-user/request.vtl
+    response: common/generic-response.vtl
+  - dataSource: UsersLambdaSource
+    type: Query
+    field: getUserLambda
+    request: false
+    response: false
+  #### mutations
+  # - dataSource: CustomErrorSource
+  #   type: Mutation
+  #   field: sendCustomError
+  #   request: 'mutation/send-custom-error/request.vtl'
+  #   response: 'common/generic-response.vtl'
+  - dataSource: UsersTableSource
+    type: Mutation
+    field: addUser
+    request: 'mutation/add-user/request.vtl'
+    response: 'common/generic-response.vtl'
+  - dataSource: UsersTableSource
+    type: Mutation
+    field: updateUserName
+    request: 'mutation/update-user-name/request.vtl'
+    response: 'common/generic-response.vtl'

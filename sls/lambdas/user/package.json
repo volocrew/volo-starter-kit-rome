@@ -1,0 +1,13 @@
+{
+  "name": "user",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "zipit": "bash utils/zipit.sh",
+    "package": "npm run zipit",
+    "deploy": "aws lambda update-function-code --region us-east-1 --profile voloapps_user --function-name RomeUser-Dev-Alpha --zip-file fileb://user.zip"
+  },
+  "author": "Zachary Feldman",
+  "license": "ISC",
+  "dependencies": {}
+}

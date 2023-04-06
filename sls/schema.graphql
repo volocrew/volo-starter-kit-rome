@@ -1,0 +1,131 @@
+schema {
+  query: Query
+  mutation: Mutation
+  # subscription: Subscription
+}
+
+type Mutation {
+  addUser(input: UserInput!): User @aws_iam @aws_cognito_user_pools
+#   deleteUser(hashKey: Int!, rangeKey: String!): User @aws_iam
+  updateUserName(input: UpdateUserNameInput!): User @aws_iam @aws_cognito_user_pools
+}
+
+type Query {
+  getUser(email: AWSEmail): User @aws_iam @aws_cognito_user_pools
+
+  getUserLambda(email: AWSEmail): User @aws_iam @aws_cognito_user_pools
+  
+  getAdminUsers(
+    filter: TableUsersFilterInput
+    limit: Int
+    nextToken: String
+  ): UserConnection @aws_iam @aws_cognito_user_pools 
+ 
+  # getUserRangeKey(rangeKey: String!): [User]  @aws_iam @aws_cognito_user_pools
+}
+
+# type Subscription {
+#   onAddUser(email: AWSEmail!): User
+#     @aws_subscribe(mutations: ["addUser"])
+#     @aws_cognito_user_pools @aws_iam
+# }
+
+type CustomError @aws_iam @aws_cognito_user_pools  {
+  id: ID!
+  timestamp: AWSDateTime!
+  message: String!
+  userId: String!
+  view: String!
+  errorStack: String!
+}
+
+input CustomErrorInput {
+  id: ID!
+  timestamp: AWSDateTime!
+  message: String!
+  userId: String!
+  view: String!
+  errorStack: String!
+}
+
+type UserConnection @aws_iam @aws_cognito_user_pools  {
+  items: [User]!
+  nextToken: String
+}
+
+type User @aws_iam @aws_cognito_user_pools {
+  email: AWSEmail!
+  name: String!
+  createdAt: AWSDateTime!
+  notifications: Boolean
+  createdBy: AWSEmail
+  phoneNumber: AWSPhone
+  theme: String
+  palette: Palette
+}
+
+input UserInput {
+  email: AWSEmail!
+  name: String!
+  createdAt: AWSDateTime!
+  notifications: Boolean
+  createdBy: AWSEmail
+  phoneNumber: AWSPhone
+  theme: String
+  palette: PaletteInput
+}
+
+type Palette @aws_iam @aws_cognito_user_pools  {
+  primary: Color
+  secondary: Color
+}
+
+input PaletteInput {
+  primary: ColorInput
+  secondary: ColorInput
+}
+
+type Color @aws_iam @aws_cognito_user_pools  {
+  main: String
+}
+
+input ColorInput {
+  main: String
+}
+
+input UpdateUserNameInput {
+  rangeKey: ID!
+  hashKey: Int!
+  name: String!
+}
+
+input TableUsersFilterInput {
+  name: TableStringFilterInput
+  createdAt: TableStringFilterInput
+}
+
+input TableIDFilterInput {
+  beginsWith: ID
+  between: [ID]
+  contains: ID
+  eq: ID
+  ge: ID
+  gt: ID
+  le: ID
+  lt: ID
+  ne: ID
+  notContains: ID
+}
+
+input TableStringFilterInput {
+  beginsWith: String
+  between: [String]
+  contains: String
+  eq: String
+  ge: String
+  gt: String
+  le: String
+  lt: String
+  ne: String
+  notContains: String
+}

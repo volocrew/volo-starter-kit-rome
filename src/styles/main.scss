@@ -1,0 +1,58 @@
+body {
+  font-size: 12px;
+  padding-top: 0;
+  margin: 0;
+  height: 100%;
+  font-family: 'RobotoRegular';
+  font-size: 16px;
+  line-height: 1.5em;
+  font-weight: 400;
+}
+
+.App {
+  width: 100%;
+  height: 100%;
+}
+
+//rome theme
+$green_light: #009869;
+$green_dark: #89dac1;
+$blue: #1e96be;
+$text_light: #000;
+$text_dark: #cccccc;
+$background_light: rgba(0, 0, 0, 0.06);
+$background-dark: #2e343a;
+$charcoal: #2e343a;
+$dropdown-light: rgba(0, 0, 0, 0.06);
+$dropdown-dark: #1d1d1d;
+$icon-light: #fff;
+$icon-dark: #000;
+
+.resize-warning {
+  font-size: 1.6rem;
+  position: absolute;
+  top: 25%;
+  text-align: center;
+  width: 100%;
+  padding: 20px;
+}
+
+.light-body {
+  background-color: #e5e4e4 !important;
+  color: #000;
+}
+
+.dark-body {
+  background-color: $romeBlack0 !important;
+  color: #cccccc;
+}
+
+.light {
+  background-color: #fff !important;
+  color: #cccccc !important;
+}
+
+.dark {
+  background-color: #424242 !important;
+  color: #4a91a6 !important;
+}

@@ -1,0 +1,28 @@
+{
+  "name": "seedStack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "ts-node test/amp_v2.ts",
+    "start": "npm run build && ts-node src/*",
+    "prebuild": "rm -rf dist",
+    "build": "tsc",
+    "zipit": "bash utils/zipit.sh",
+    "package": "npm run build && npm run zipit",
+    "predeploy": "npm run package",
+    "deploy": "aws lambda update-function-code --region us-east-1 --profile voloapps_user --function-name VoloSeedStack-Dev-Alpha --zip-file fileb://seedStack.zip",
+    "predeploy:prod": "npm run package",
+    "deploy:prod": "aws lambda update-function-code --region us-east-2 --profile voloapps_user --function-name VoloSeedStack-Prod --zip-file fileb://seedStack.zip"
+  },
+  "author": "Zachary Feldman",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^11.13.4",
+    "aws-sdk": "^2.487.0",
+    "ts-node": "^8.1.0",
+    "typescript": "3.5.3",
+    "aws-appsync": "~1.8.1",
+    "graphql-tag": "^2.10.1"
+  }
+}

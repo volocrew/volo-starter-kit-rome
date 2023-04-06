@@ -1,0 +1,75 @@
+// Regular font
+
+@font-face {
+    font-family: 'RobotoRegular';
+    src: local('RobotoRegular'), url(../static/fonts/Roboto/Roboto-Regular.ttf) format('truetype');
+}
+  
+@font-face {
+    font-family: 'RobotoBold';
+    font-weight: bold;
+    src: local('RobotoBold'), url(../static/fonts/Roboto/Roboto-Bold.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'RobotoMedium';
+    font-weight: 500;
+    src: local('RobotoMedium'), url(../static/fonts/Roboto/Roboto-Medium.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'RobotoLight';
+    font-weight: 300;
+    src: local('RobotoLight'), url(../static/fonts/Roboto/Roboto-Light.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'RobotoThin';
+    font-weight: 100;
+    src: local('RobotoThin'), url(../static/fonts/Roboto/Roboto-Thin.ttf) format('truetype');
+}
+
+
+// Italic font
+
+@font-face {
+    font-family: 'RobotoItalic';
+    src: local('RobotoItalic'), url(../static/fonts/Roboto/Roboto-Italic.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'RobotoBoldItalic';
+    font-weight: bold;
+    src: local('RobotoBoldItalic'), url(../static/fonts/Roboto/Roboto-BoldItalic.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'RobotoMediumItalic';
+    font-weight: 500;
+    src: local('RobotoMediumItalic'), url(../static/fonts/Roboto/Roboto-MediumItalic.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'RobotoLightItalic';
+    font-weight: 300;
+    src: local('RobotoLightItalic'), url(../static/fonts/Roboto/Roboto-LightItalic.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'RobotoThinItalic';
+    font-weight: 100;
+    src: local('RobotoThinItalic'), url(../static/fonts/Roboto/Roboto-ThinItalic.ttf) format('truetype');
+}
+
+
+// Black font
+
+@font-face {
+    font-family: 'RobotoBlack';
+    src: local('Roboto'), url(../static/fonts/Roboto/Roboto-Black.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'RobotoBlackItalic';
+    src: local('RobotoBlackItalic'), url(../static/fonts/Roboto/Roboto-BlackItalic.ttf) format('truetype');
+}

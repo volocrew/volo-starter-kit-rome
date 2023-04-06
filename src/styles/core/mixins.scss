@@ -1,0 +1,64 @@
+// Opacity should be on a 100 point scale (0-100 instead of 0.0-1.0)
+// This should be used to supplement a normal border definition as it
+// only deals with the 'border-color' property.
+@mixin border-opacity($color, $opacity) {
+  // Unsupporting browsers get this
+  border-color: $color;
+
+  // Browsers that support RGBA will get this instead
+  border-color: rgba($color, $opacity);
+
+  // Prevent the element's background from reaching the edge of the border
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding;
+  background-clip: padding-box;
+}
+
+@mixin background-color-opacity($color, $opacity) {
+  // Unsupporting browsers get this
+  background-color: $color;
+
+  // Browsers that support RGBA will get this instead
+  background-color: rgba($color, $opacity);
+
+  // Prevent the element's background from reaching the edge of the border
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding;
+  background-clip: padding-box;
+}
+
+@mixin color-opacity($color, $opacity) {
+  // Unsupporting browsers get this
+  color: $color;
+
+  // Browsers that support RGBA will get this instead
+  color: rgba($color, $opacity);
+
+  // Prevent the element's background from reaching the edge of the border
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding;
+  background-clip: padding-box;
+}
+
+$image-sizes: (
+  small: 48px,
+  medium: 64px,
+  large: 128px,
+  xlarge: 254px
+);
+
+@mixin rome-image-container($size) {
+  width: map-get($image-sizes, $size);
+  height: map-get($image-sizes, $size);
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+@mixin center() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

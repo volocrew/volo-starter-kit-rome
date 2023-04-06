@@ -1,0 +1,129 @@
+user:
+  handler: lambda_function.lambda_handler
+  name: ${self:custom.appNameU}User-${self:custom.env}
+  description: User Profile Information
+  runtime: python3.7
+  timeout: 30
+  role:
+    Fn::GetAtt: [StackMasterRole, Arn]
+  tags:
+    BAName: ${self:custom.baName}
+    OwnerContact: ${self:custom.ownerContact}
+    Company: ${self:custom.company}
+    Cost Center: ${self:custom.costCenter}
+  environment:
+    region: ${self:custom.region}
+    dynamoDBTable: ${self:custom.appNameL}-users-${self:custom.environments.${self:custom.env}}
+  package:
+    include:
+      - dist/**
+    artifact: ./dist/user.zip
+    individually: true
+  events:
+    - http:
+        path: api/user
+        method: get
+        authorizer:
+          type: COGNITO_USER_POOLS
+          authorizerId:
+            Ref: ApiGatewayAuthorizer
+        cors: true
+    - http:
+        path: api/user
+        method: put
+        authorizer:
+          type: COGNITO_USER_POOLS
+          authorizerId:
+            Ref: ApiGatewayAuthorizer
+        cors: true
+
+userAppsync:
+  handler: lambda_function.lambda_handler
+  name: ${self:custom.appNameU}UserAppsync-${self:custom.env}
+  description: User resolver for appsync
+  runtime: python3.7
+  timeout: 30
+  role:
+    Fn::GetAtt: [StackMasterRole, Arn]
+  tags:
+    BAName: ${self:custom.baName}
+    OwnerContact: ${self:custom.ownerContact}
+    Company: ${self:custom.company}
+    Cost Center: ${self:custom.costCenter}
+  environment:
+    region: ${self:custom.region}
+    dynamoDBTable: ${self:custom.appNameL}-users-${self:custom.environments.${self:custom.env}}
+  package:
+    include:
+      - dist/**
+    artifact: ./dist/userAppsync.zip
+    individually: true
+
+application:
+  handler: lambda_function.lambda_handler
+  name: ${self:custom.appNameU}Application-${self:custom.env}
+  description: Application Configuration Settings
+  runtime: python3.7
+  timeout: 30
+  role:
+    Fn::GetAtt: [StackMasterRole, Arn]
+  tags:
+    BAName: ${self:custom.baName}
+    OwnerContact: ${self:custom.ownerContact}
+    Company: ${self:custom.company}
+    Cost Center: ${self:custom.costCenter}
+  environment:
+    region: ${self:custom.region}
+    dynamoDBTable: ${self:custom.appNameL}-application-${self:custom.environments.${self:custom.env}}
+  package:
+    include:
+      - dist/**
+    artifact: ./dist/application.zip
+    individually: true
+  events:
+    - http:
+        path: api/application
+        method: get
+        authorizer:
+          type: COGNITO_USER_POOLS
+          authorizerId:
+            Ref: ApiGatewayAuthorizer
+        cors: true
+    - http:
+        path: api/application/{version}/{type}
+        method: put
+        authorizer:
+          type: COGNITO_USER_POOLS
+          authorizerId:
+            Ref: ApiGatewayAuthorizer
+        cors: true
+
+seedStack:
+  handler: seedStack/src/index.handler
+  name: VoloSeedStack-${self:custom.env}
+  description: This lambda seeds a stack after creation
+  runtime: nodejs12.x
+  timeout: 30
+  role:
+    Fn::GetAtt: [StackMasterRole, Arn]
+  layers:
+    - arn:aws:lambda:${self:custom.region}:#{AWS::AccountId}:layer:AppSyncLayer:1
+  environment:
+    region: ${self:custom.region}
+    appSyncUrl:
+      Fn::GetAtt: [GraphQlApi, GraphQLUrl]
+    POOL_ID: !Ref CognitoUserPool
+    REGION: ${self:custom.region}
+    STAGE: ${self:custom.stage}
+  tags:
+    BAName: ${self:custom.baName}
+    OwnerContact: ${self:custom.ownerContact}
+    Company: ${self:custom.company}
+    Cost Center: ${self:custom.costCenter}
+  package:
+    include:
+      - dist/**
+    artifact: ./dist/seedStack.zip
+    individually: true
+  dependsOn:
+    - GraphQlApi

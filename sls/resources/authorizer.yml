@@ -1,0 +1,21 @@
+Resources:
+  ApiGatewayRestApi:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: ${self:custom.appNameU}BaseApi-${self:custom.env}
+      Description: Volo Starter Kit API Gateway Base ENV~${self:custom.env}
+  ApiGatewayAuthorizer:
+    Type: AWS::ApiGateway::Authorizer
+    Properties:
+      AuthorizerResultTtlInSeconds: 300
+      IdentitySource: method.request.header.Authorization
+      Name: enigmaglassAuthorizer-${self:custom.env}
+      RestApiId:
+        Ref: ApiGatewayRestApi
+      Type: COGNITO_USER_POOLS
+      ProviderARNs:
+      - {"Fn::Join": ["", ["arn:aws:cognito-idp:", {Ref: "AWS::Region"}, ":", {Ref: "AWS::AccountId"}, ":userpool/", {Ref: CognitoUserPool}]]} # "${self:custom.env}-CognitoUserPoolId"]]}
+Outputs:
+  ApiGatewayDefaultUrl:
+    Description: The default API gateway URL
+    Value: !Join ["", ["https://", {Ref: ApiGatewayRestApi}, ".execute-api.", {Ref: "AWS::Region"}, ".amazonaws.com/", "${self:custom.env}", "/api"]]

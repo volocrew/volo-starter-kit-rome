@@ -1,0 +1,28 @@
+- When deployment is finished, persist the endpoints and AppSync URL in a dotfile that can be read by the react app
+- Ended up doing a script to display manually as I realized people might not want to have their values overwritten
+- Update the main readme for a public open source library
+    - [DOING] Should show how to deploy the stack
+    - [DOING] Should show prereqs like cloning and npm installing in the sls folder
+    - [TODO] highlight features of the app
+    - [DONE] Show general architecture
+    - [DONE] show how to update the config in the app.config.ts once deployed so the frontend can connect to the new backend
+    - [TODO] document `seedStack` lambda
+- Put roles into sls
+    - Can we make a role public and address it by ARN? that way nobody has to create roles ever
+      - Otherwise have the script create the relevant roles if they don't exist
+    - this includes the RomeGodRole
+    - this includes the cognito-admin
+- [DOING] Remove Unneeded logos
+- Put IAM role for appsync bot (ask zach about this) or have a way to create a new role
+    - [TODO] We may just add a guide for this for now but would be great to get into sls
+- Put cloudfront/s3/ACM into sls
+    - Optimize this?
+- Automate layer creation for lambdas
+    - Maybe we can create public layers for this?
+- [TODO] blow up old repo history with secrets and stuff 
+- [TODO] write down a walkthrough of the frontend app
+  - Sidebar
+  - Have an example of the graphql query?
+  - Show an existing admin page as en example on how to expand it
+- [DONE] On post-deploy script add missing vars + fix names in react config so they're identical + add AWS region
+- [TODO] Pick a license

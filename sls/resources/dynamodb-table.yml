@@ -1,0 +1,41 @@
+Resources:
+  UsersTable: # name of the resource to be use later
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: ${self:custom.appNameL}-users-${self:custom.environments.${self:custom.env}}
+      AttributeDefinitions:
+        - AttributeName: email
+          AttributeType: S
+      KeySchema:
+        - AttributeName: email # partition key
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+      Tags:
+        - Key: BAName
+          Value: ${self:custom.baName}
+        - Key: OwnerContact
+          Value: ${self:custom.ownerContact}
+        - Key: Company
+          Value: ${self:custom.company}
+        - Key: Cost Center
+          Value: ${self:custom.costCenter}
+  ApplicationTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: ${self:custom.appNameL}-application-${self:custom.environments.${self:custom.env}}
+      AttributeDefinitions:
+        - AttributeName: version
+          AttributeType: S
+      KeySchema:
+        - AttributeName: version # partition key
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+      Tags:
+        - Key: BAName
+          Value: ${self:custom.baName}
+        - Key: OwnerContact
+          Value: ${self:custom.ownerContact}
+        - Key: Company
+          Value: ${self:custom.company}
+        - Key: Cost Center
+          Value: ${self:custom.costCenter}

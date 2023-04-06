@@ -1,0 +1,8 @@
+#set($input = {})
+$util.qr($input.put("userId", $ctx.source.rangeKey))
+$util.qr($input.put("field", $ctx.info.fieldName))
+{
+    "operation": "Invoke",
+    "version" : "2018-05-29",
+    "payload": $util.toJson($input)
+}

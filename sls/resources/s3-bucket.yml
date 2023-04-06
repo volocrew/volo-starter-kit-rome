@@ -1,0 +1,37 @@
+Resources:
+  # TODO Add public bucket policy to this
+  romeVoloStarterKitBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: ${self:custom.appNameL}-volo-starter-kit-${self:custom.environments.${self:custom.env}}
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      Tags:
+        - Key: BAName
+          Value: ${self:custom.baName}
+        - Key: OwnerContact
+          Value: ${self:custom.ownerContact}
+        - Key: Company
+          Value: ${self:custom.company}
+        - Key: Cost Center
+          Value: ${self:custom.costCenter}
+      # Set the CORS policy
+      CorsConfiguration:
+        CorsRules:
+          - AllowedOrigins:
+              - '*'
+            AllowedHeaders:
+              - '*'
+            AllowedMethods:
+              - GET
+              - PUT
+              - POST
+              - DELETE
+              - HEAD
+            MaxAge: 3000
+Outputs:
+  S3BucketPathId:
+    Value: !Ref romeVoloStarterKitBucket

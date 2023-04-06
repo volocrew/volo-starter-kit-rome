@@ -1,0 +1,24 @@
+{
+  "fixturesFolder": "./rome-e2e/fixtures",
+  "integrationFolder": "./rome-e2e/integration",
+  "cypressConfig": "./rome-e2e/cypress.json",
+  "tsConfig": "./rome-e2e/tsconfig.e2e.json",
+  "pluginsFile": false,
+  "supportFile": "./rome-e2e/support/index.js",
+  "video": false,
+  "chromeWebSecurity": false,
+  "experimentalFetchPolyfill": true,
+  "waitForAnimations": false,
+  "pageLoadTimeout": 25000,
+  "defaultCommandTimeout": 25000,
+  "execTimeout": 25000,
+  "taskTimeout": 25000,
+  "viewportWidth": 1300,
+  "viewportHeight": 800,
+  "baseUrl": "http://localhost:3000",
+  "env": {
+    "// TODO": "change to QA username and password",
+    "username": "",
+    "password": ""
+  }
+}

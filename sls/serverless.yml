@@ -1,0 +1,78 @@
+service: "volo-starter-kit"
+useDotenv: true
+frameworkVersion: '2 || 3'
+variablesResolutionMode: 20210326
+configValidationMode: error
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stackName: ${self:custom.company}-${self:custom.appNameL}-volo-starter-kit-v1-${self:custom.environments.${self:custom.env}}
+  region: ${opt:region}
+  endpointType: regional
+  stackTags:
+    BAName: ${self:custom.baName}
+    OwnerContact: ${self:custom.ownerContact}
+    Company: ${self:custom.company}
+  deploymentBucket:
+    name: ${self:custom.appNameL}-volo-starter-kit-deployment-bucket-v1-${self:custom.environments.${self:custom.env}}
+    serverSideEncryption: AES256
+    blockPublicAccess: true
+    tags:
+      BAName: ${self:custom.baName}
+      OwnerContact: ${self:custom.ownerContact}
+      Company: ${self:custom.company}
+      "Cost Center": ${self:custom.costCenter}
+
+plugins:
+  - serverless-deployment-bucket
+  - serverless-plugin-resource-tagging
+  - serverless-pseudo-parameters
+  - serverless-appsync-plugin
+  - serverless-step-functions
+  - serverless-dotenv-plugin
+  - serverless-prune-plugin
+  - serverless-git-commit-tracker
+
+custom:
+  appNameL: rome
+  appNameU: Rome
+  baName: volo-starter-kit
+  company: volocrew
+  ownerContact: zach@volocrew.com
+  costCenter: ROME
+  dotenv:
+    exclude:
+      - AWS_PROFILE
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - AWS_SESSION_TOKEN
+  # Our stage is based on what is passed in when running serverless
+  # commands. Or fallsback to what we have set in the provider section.
+  stage: ${opt:stage, self:provider.stage}
+  # Set the table name here so we can use it while testing locally
+  env: ${self:custom.stage}
+  # region
+  region: ${opt:region}
+  # region
+  environments:
+    Dev-Alpha: dev-alpha
+    Dev-Bravo: dev-bravo
+    Dev-Charlie: dev-charlie
+    QA: qa
+    Prod: prod
+    file: ./stack-vars.yml
+  appSync: ${file(resources/app-sync.yml)}
+
+resources:
+  - ${file(resources/roles.yml)}
+  # Cognito
+  - ${file(resources/cognito-user-pool.yml)}
+  # DynamoDB tables
+  - ${file(resources/dynamodb-table.yml)}
+  # s3 buckets
+  - ${file(resources/s3-bucket.yml)}
+  - ${file(resources/authorizer.yml)}
+
+functions:
+  - ${file(resources/lambda-and-api-gateway.yml)}

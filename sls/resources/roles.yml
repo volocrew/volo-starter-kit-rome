@@ -1,0 +1,41 @@
+Resources:
+    AppSyncBot:
+      Type: AWS::IAM::User
+      Properties:
+        ManagedPolicyArns:
+          - arn:aws:iam::aws:policy/AWSAppSyncAdministrator
+          - arn:aws:iam::aws:policy/AWSAppSyncInvokeFullAccess
+    StackMasterRole:
+      Type: AWS::IAM::Role
+      Properties:
+        AssumeRolePolicyDocument:
+          Version: "2012-10-17"
+          Statement: 
+            Effect: Allow
+            Principal:
+              Service: "lambda.amazonaws.com"
+            Action: "sts:AssumeRole"
+        ManagedPolicyArns:
+          - arn:aws:iam::aws:policy/CloudWatchFullAccess
+          - arn:aws:iam::aws:policy/AmazonDynamoDBReadOnlyAccess
+          - arn:aws:iam::aws:policy/AmazonS3FullAccess
+          - arn:aws:iam::aws:policy/SecretsManagerReadWrite
+          - arn:aws:iam::aws:policy/AmazonCognitoPowerUser
+          - arn:aws:iam::aws:policy/AmazonCognitoDeveloperAuthenticatedIdentities
+    CognitoAdminRole:
+      Type: AWS::IAM::Role
+      Properties:
+        AssumeRolePolicyDocument:
+          Version: "2012-10-17"
+          Statement: 
+            Effect: Allow
+            Principal:
+              Service: "lambda.amazonaws.com"
+            Action: "sts:AssumeRole"
+        ManagedPolicyArns:
+          - arn:aws:iam::aws:policy/CloudWatchFullAccess
+          - arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess
+          - arn:aws:iam::aws:policy/AmazonS3FullAccess
+          - arn:aws:iam::aws:policy/SecretsManagerReadWrite
+          - arn:aws:iam::aws:policy/AmazonCognitoPowerUser
+          - arn:aws:iam::aws:policy/AmazonCognitoDeveloperAuthenticatedIdentities

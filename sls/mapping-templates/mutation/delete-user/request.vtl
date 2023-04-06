@@ -1,0 +1,12 @@
+##if($ctx.args.rangeKey == $ctx.identity.sub)
+{
+  "version": "2017-02-28",
+  "operation": "DeleteItem",
+  "key": {
+    "hashKey": $util.dynamodb.toDynamoDBJson($ctx.args.hashKey),
+    "rangeKey": $util.dynamodb.toDynamoDBJson($ctx.args.rangeKey)
+  }
+}
+##else
+  ##  $utils.unauthorized()
+###end

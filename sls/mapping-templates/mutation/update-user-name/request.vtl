@@ -1,0 +1,21 @@
+#set($nameJson = $util.dynamodb.toDynamoDBJson($ctx.args.input.name))
+#set($nullInJson = $util.dynamodb.toDynamoDBJson(null))
+
+{
+    "version" : "2017-02-28",
+    "operation" : "UpdateItem",
+    "key" : {
+        "hashKey" : $util.dynamodb.toDynamoDBJson($ctx.args.input.hashKey),
+        "rangeKey" : $util.dynamodb.toDynamoDBJson($ctx.args.input.rangeKey)
+    },
+    "update" : {
+        "expression" : "SET #st = :vals",
+        "expressionValues": {
+            ":vals" :  #if(${ctx.args.input.name}) ${nameJson} #else ${nullInJson} #end
+        },
+        "expressionNames": {
+             "#st": "name"
+        }
+    }
+}
+

@@ -1,0 +1,13 @@
+{
+    "version": "2017-02-28",
+    "operation": "Query",
+    "index": "rangeKey-index",
+    "query": {
+        "expression": "rangeKey = :rangeKey",
+        "expressionValues": {
+            ":rangeKey": {
+                "S": "$ctx.args.rangeKey"
+            }
+        }
+    }
+}

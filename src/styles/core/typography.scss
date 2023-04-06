@@ -1,0 +1,47 @@
+$rome-font__weights: (
+  extra-light: 50,
+  light: 100,
+  slim: 200,
+  thin: 300,
+  normal: 400,
+  semibold: 600
+);
+
+$rome-font__sizes: (
+  tiny: 12px,
+  small: 14px,
+  normal: 16px,
+  medium: 18px,
+  medium-large: 20px,
+  large: 24px,
+  xlarge: 32px,
+  xxlarge: 48px,
+  xxxlarge: 64px
+);
+
+@function rome-getTextWeight($weight: 'normal') {
+  @return map-get($rome-font__weights, $weight);
+}
+
+@function rome-getFontSize($weight: 'normal') {
+  @return map-get($rome-font__sizes, $weight);
+}
+
+$rome-line__heights: (
+  tiny: 1.5em,
+  small: 1.5em,
+  normal: 1.5em,
+  medium: 1.5em,
+  medium-large: 1.5em,
+  large: 1.3em,
+  xlarge: 1.3em,
+  xxlarge: 1.2em
+) !default;
+
+@mixin rome-getTextStyles($size: 'normal', $weight: 'normal') {
+  font-family: 'RobotoRegular' !important;
+  font-size: map-get($rome-font__sizes, $size) !important;
+  line-height: map-get($rome-line__heights, $size) !important;
+  font-weight: rome-getTextWeight($weight) !important;
+  cursor: default !important;
+}

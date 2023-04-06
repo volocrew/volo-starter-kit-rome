@@ -1,0 +1,38 @@
+$spacing-sizes: (
+  xsmall: 3px,
+  small: 6px,
+  medium: 12px,
+  medium-large: 16px,
+  large: 24px,
+  xlarge: 48px,
+  xxlarge: 64px,
+  xxxlarge: 96px,
+  xxxxlarge: 182px,
+  xxxxxlarge: 256px
+);
+
+@mixin padding($size, $direction: null, $important: null) {
+  $size-value: map-get($spacing-sizes, $size);
+  @if ($important != null) {
+    $size-value: map-get($spacing-sizes--important, $size);
+  }
+
+  @if ($direction == null) {
+    padding: $size-value;
+  } @else {
+    padding-#{$direction}: $size-value;
+  }
+}
+
+@mixin margin($size, $direction: null, $important: null) {
+  $size-value: map-get($spacing-sizes, $size);
+  @if ($important != null) {
+    $size-value: map-get($spacing-sizes--important, $size);
+  }
+
+  @if ($direction == null) {
+    margin: $size-value;
+  } @else {
+    margin-#{$direction}: $size-value;
+  }
+}
